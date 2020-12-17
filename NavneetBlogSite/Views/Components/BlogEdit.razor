@@ -1,0 +1,95 @@
+﻿@using System.Web
+@using NavneetBlogSite.Models
+
+
+<h3>Blog Edit</h3>
+
+
+<form action="@url" method="post" novalidate="novalidate">
+
+    <div class="row m-sm-2" >
+        <div class="col-sm-6"> <label for="name"  class="text-danger"> Name</label> </div>
+        <div class="col-sm-6"> <input type="text" div="name" class="form-control" name="Name" value="@blog.Name" /> </div>
+    </div>
+
+
+    <div class="row  m-sm-2">
+        <div class="col-sm-6"> <label for="content"  class="text-danger"> Content</label> </div>
+        <div class="col-sm-6"><input type="text" div="name" class="form-control" name="Content" value="@blog.Content" /> </div>
+    </div>
+
+    <div class="row  m-sm-2">
+        <div class="col-sm-6">  <label for="title"  class="text-danger"> Title</label> </div>
+        <div class="col-sm-6"><input type="text" div="title" class="form-control" name="Title" value="@blog.Title" /> </div>
+    </div>
+
+
+    <div class="row  m-sm-2">
+        <div class="col-sm-6">  <label for="authorEmail" class="text-danger"> Author Email </label>  </div>
+        <div class="col-sm-6"><input div="authorEmail" type="text" class="form-control" name="AuthorEmail" value="@blog.AuthorEmail" /> </div>
+    </div>
+
+
+
+
+    <input type="hidden" name="Id" value="@blog.Id">
+    <div class="row  m-sm-2">
+        <div class="offset-0"> <input type="submit" name="submit" class="btn-danger" value="@submitPost" />  </div>
+    </div>
+
+
+    
+</form>
+
+
+@code {
+    private BlogPost _blog = new BlogPost();
+
+    private string url
+    {
+        get
+        {
+            string urlLink = String.Empty;
+
+            if (_blog.Id < 1)
+            {
+                urlLink = String.Concat(baseUrl, "/Create").Replace("//", "/");
+
+                return urlLink;
+            }
+            urlLink = String.Concat(baseUrl, "/Edit/", _blog.Id.ToString()).Replace("//", "/");
+
+            return urlLink;
+        }
+
+    }
+
+    private string submitPost
+    {
+        get
+        {
+            if (_blog.Id < 1)
+            {
+                return "Create new Post";
+
+            }
+            return "Update Post";
+        }
+    }
+
+    [Parameter]
+    public BlogPost blog
+    {
+        set
+        {
+            _blog = value;
+        }
+        get
+        {
+            return _blog;
+        }
+    }
+
+    [Parameter]
+    public string baseUrl { get; set; }
+}
